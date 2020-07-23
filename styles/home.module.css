@@ -1,0 +1,7 @@
+.headerTop {
+    border-color: transparent !important;
+}
+
+.hideLabel label {
+    color: transparent !important;
+}
