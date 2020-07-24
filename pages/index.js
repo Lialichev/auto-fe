@@ -13,6 +13,7 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 import SearchFilter from "../components/search/SearchFIlter";
+import Router from 'next/router'
 
 import styles from '../styles/home.module.css';
 
@@ -91,10 +92,15 @@ class DesktopContainer extends Component {
                 <Menu.Item as='a'>Продажа</Menu.Item>
                 <Menu.Item as='a'>Новости</Menu.Item>
                 <Menu.Item position='right'>
-                  <Button as='a' inverted={ !fixed }>
+                  <Button onClick={ () => Router.push('/sign-in') } inverted={ !fixed }>
                     Войти
                   </Button>
-                  <Button as='a' inverted={ !fixed } primary={ fixed } style={ { marginLeft: '0.5em' } }>
+                  <Button
+                    onClick={ () => Router.push('/sign-up') }
+                    inverted={ !fixed }
+                    primary={ fixed }
+                    style={ { marginLeft: '0.5em' } }
+                  >
                     Регистрация
                   </Button>
                 </Menu.Item>
@@ -186,7 +192,10 @@ const ResponsiveContainer = ({ children }) => (
 
 const HomepageLayout = ({ categories }) => (
   <ResponsiveContainer>
-    <SearchFilter categories={categories} />
+
+    {/* Search Filter */ }
+    <SearchFilter categories={ categories }/>
+
     <Segment inverted vertical style={ { padding: '5em 0em' } }>
       <Container>
         <Grid divided inverted stackable>
