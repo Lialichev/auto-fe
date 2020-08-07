@@ -81,7 +81,7 @@ export default function SearchFilter({ categories }) {
                     fluid
                     label='Тип транспорта'
                     options={ categories.map(({ name, _id }) => ({ text: name, value: _id })) }
-                    clearable="true"
+                    clearable={true}
                     value={ state.category }
                     onChange={ handleChange }
                     name="category"
@@ -92,7 +92,7 @@ export default function SearchFilter({ categories }) {
                   <Form.Field
                     control={ Select }
                     options={ brand }
-                    clearable="true"
+                    clearable={true}
                     label={ { children: 'Марка', htmlFor: 'form-select-control-brand' } }
                     placeholder='Марка'
                     search
@@ -104,7 +104,7 @@ export default function SearchFilter({ categories }) {
                   <Form.Field
                     control={ Select }
                     options={ brand }
-                    clearable="true"
+                    clearable={true}
                     label={ { children: 'Модель', htmlFor: 'form-select-control-model' } }
                     placeholder='Модель'
                     search
@@ -118,7 +118,7 @@ export default function SearchFilter({ categories }) {
                   <Form.Field
                     control={ Select }
                     options={ region }
-                    clearable="true"
+                    clearable={true}
                     label={ { children: 'Регион', htmlFor: 'form-select-control-region' } }
                     placeholder='Регион'
                     search
@@ -130,7 +130,7 @@ export default function SearchFilter({ categories }) {
                   <Form.Group widths='equal' style={ { marginBottom: 0 } }>
                     <Form.Select
                       fluid
-                      clearable="true"
+                      clearable={true}
                       label='Год'
                       options={ new Array(120).fill('').map((item, i) => {
                         const newItem = 2020 - i;
@@ -142,7 +142,7 @@ export default function SearchFilter({ categories }) {
                     <Form.Select
                       className={ styles.hideLabel }
                       fluid
-                      clearable="true"
+                      clearable={true}
                       label='Год'
                       options={ new Array(120).fill('').map((item, i) => {
                         const newItem = 2020 - i;
