@@ -195,7 +195,6 @@ const ResponsiveContainer = ({ children }) => (
 
 const HomepageLayout = () => {
     const data = useSelector((state) => state.data.data);
-    console.log(data);
 
     return (
         <ResponsiveContainer>
