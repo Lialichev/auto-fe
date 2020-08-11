@@ -1,16 +1,11 @@
 import { actionTypes } from './action'
 
-const initialState = {
-  data: [],
-}
+const initialState = []
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.GET:
-      return {
-        ...state,
-        data: action.payload
-      }
+    case actionTypes.GET_MODELS:
+      return action.payload
     default:
       return state
   }

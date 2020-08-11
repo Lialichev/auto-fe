@@ -1,7 +1,9 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import thunkMiddleware from 'redux-thunk'
-import data from './data/reducer'
+import categories from './categories/reducer'
+import brands from './brands/reducer'
+import model from './model/reducer'
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -12,7 +14,9 @@ const bindMiddleware = (middleware) => {
 }
 
 const combinedReducer = combineReducers({
-  data,
+  categories,
+  brands,
+  model,
 })
 
 const reducer = (state, action) => {
