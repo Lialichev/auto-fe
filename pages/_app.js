@@ -1,5 +1,8 @@
+import { wrapper } from '../store';
 import 'semantic-ui-css/semantic.min.css';
 
-export default function EntryApp({ Component, pageProps }) {
+const EntryApp = ({ Component, pageProps }) => {
   return <Component {...pageProps} />
-}
+};
+
+export default wrapper.withRedux(EntryApp);

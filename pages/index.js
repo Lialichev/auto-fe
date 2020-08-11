@@ -1,5 +1,5 @@
-import { createMedia } from '@artsy/fresnel'
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { createMedia } from '@artsy/fresnel';
 import {
     Button,
     Container,
@@ -11,9 +11,12 @@ import {
     Segment,
     Sidebar,
     Visibility,
-} from 'semantic-ui-react'
+} from 'semantic-ui-react';
 import SearchFilter from "../components/search/SearchFIlter";
 import Router from 'next/router';
+import { wrapper } from '../store'
+import { getData } from '../store/data/action'
+import { useSelector } from 'react-redux'
 
 import styles from '../styles/home.module.css';
 
@@ -23,7 +26,7 @@ const { MediaContextProvider, Media } = createMedia({
         tablet: 768,
         computer: 1024,
     },
-})
+});
 
 /* eslint-disable react/no-multi-comp */
 const HomepageHeading = ({ mobile }) => (
@@ -55,7 +58,7 @@ const HomepageHeading = ({ mobile }) => (
             Поиск
         </Button>
     </Container>
-)
+);
 
 class DesktopContainer extends Component {
     state = {}
@@ -188,59 +191,69 @@ const ResponsiveContainer = ({ children }) => (
         <DesktopContainer>{ children }</DesktopContainer>
         <MobileContainer>{ children }</MobileContainer>
     </MediaContextProvider>
-)
+);
 
-const HomepageLayout = ({ categories }) => (
-    <ResponsiveContainer>
+const HomepageLayout = () => {
+    const data = useSelector((state) => state.data.data);
+    console.log(data);
 
-        {/* Search Filter */ }
-        <SearchFilter categories={ categories }/>
+    return (
+        <ResponsiveContainer>
 
-        <Segment inverted vertical style={ { padding: '5em 0em' } }>
-            <Container>
-                <Grid divided inverted stackable>
-                    <Grid.Row>
-                        <Grid.Column width={ 3 }>
-                            <Header inverted as='h4' content='About'/>
-                            <List link inverted>
-                                <List.Item as='a'>Sitemap</List.Item>
-                                <List.Item as='a'>Contact Us</List.Item>
-                                <List.Item as='a'>Religious Ceremonies</List.Item>
-                                <List.Item as='a'>Gazebo Plans</List.Item>
-                            </List>
-                        </Grid.Column>
-                        <Grid.Column width={ 3 }>
-                            <Header inverted as='h4' content='Services'/>
-                            <List link inverted>
-                                <List.Item as='a'>Banana Pre-Order</List.Item>
-                                <List.Item as='a'>DNA FAQ</List.Item>
-                                <List.Item as='a'>How To Access</List.Item>
-                                <List.Item as='a'>Favorite X-Men</List.Item>
-                            </List>
-                        </Grid.Column>
-                        <Grid.Column width={ 7 }>
-                            <Header as='h4' inverted>
-                                Footer Header
-                            </Header>
-                            <p>
-                                Extra space for a call to action inside the footer that could help re-engage users.
-                            </p>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </Container>
-        </Segment>
-    </ResponsiveContainer>
-)
+            {/* Search Filter */ }
+            {/*<SearchFilter categories={ categories }/>*/}
 
-HomepageLayout.getInitialProps = async () => {
-
-    const response = await fetch('http://localhost:5000/api/category')
-    const categories = await response.json()
-
-    return {
-        categories
-    }
+            <Segment inverted vertical style={ { padding: '5em 0em' } }>
+                <Container>
+                    <Grid divided inverted stackable>
+                        <Grid.Row>
+                            <Grid.Column width={ 3 }>
+                                <Header inverted as='h4' content='About'/>
+                                <List link inverted>
+                                    <List.Item as='a'>Sitemap</List.Item>
+                                    <List.Item as='a'>Contact Us</List.Item>
+                                    <List.Item as='a'>Religious Ceremonies</List.Item>
+                                    <List.Item as='a'>Gazebo Plans</List.Item>
+                                </List>
+                            </Grid.Column>
+                            <Grid.Column width={ 3 }>
+                                <Header inverted as='h4' content='Services'/>
+                                <List link inverted>
+                                    <List.Item as='a'>Banana Pre-Order</List.Item>
+                                    <List.Item as='a'>DNA FAQ</List.Item>
+                                    <List.Item as='a'>How To Access</List.Item>
+                                    <List.Item as='a'>Favorite X-Men</List.Item>
+                                </List>
+                            </Grid.Column>
+                            <Grid.Column width={ 7 }>
+                                <Header as='h4' inverted>
+                                    Footer Header
+                                </Header>
+                                <p>
+                                    Extra space for a call to action inside the footer that could help re-engage users.
+                                </p>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </Container>
+            </Segment>
+        </ResponsiveContainer>
+    );
 }
+
+// HomepageLayout.getInitialProps = async () => {
+//
+//     const response = await fetch('http://localhost:5000/api/category');
+//     const categories = await response.json();
+//
+//     return {
+//         categories
+//     };
+// };
+
+export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) => {
+        await store.dispatch(getData());
+    }
+)
 
 export default HomepageLayout;
