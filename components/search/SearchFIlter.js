@@ -161,18 +161,26 @@ export default function SearchFilter() {
                                             <label>Цена</label>
                                             <Input
                                                 label='$'
-                                                clearable="true"
                                                 type="number"
                                                 placeholder='от'
                                                 fluid
                                             />
                                         </Form.Field>
                                         <Form.Field>
-                                            <label style={ { color: 'transparent' } }>Цена</label>
+                                            <label
+                                                style={ {
+                                                    color: 'transparent',
+                                                    pointerEvents: 'none',
+                                                    userSelect: 'none'
+                                                } }
+                                            >
+                                                Цена
+                                            </label>
                                             <Input
                                                 label='$'
                                                 placeholder='до'
                                                 type="number"
+                                                max={5}
                                                 fluid
                                             />
                                         </Form.Field>
