@@ -46,19 +46,24 @@ export default function SearchFilter() {
     });
 
     useEffect(() => {
-        // setState(prevState => ({
-        //   ...prevState,
-        //   category: get(categories, '[0]._id')
-        // }))
-        dispatch(getBrandsByCategory({ category_id: state.category }));
+        if (state.category) {
+            dispatch(getBrandsByCategory({ category_id: state.category }));
+            setState(prevState => ({
+                ...prevState,
+                brand: '',
+                model: '',
+            }))
+        }
     }, [ state.category ]);
 
     useEffect(() => {
-        // setState(prevState => ({
-        //   ...prevState,
-        //   category: get(categories, '[0]._id')
-        // }))
-        dispatch(getModelsByBrand({ brand_id: state.brand }));
+        if (state.brand) {
+            dispatch(getModelsByBrand({ brand_id: state.brand }));
+            setState(prevState => ({
+                ...prevState,
+                model: '',
+            }))
+        }
     }, [ state.brand ]);
 
     const handleChange = (e, { name, value }) => setState(prevState => ({

@@ -3,7 +3,7 @@ import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import thunkMiddleware from 'redux-thunk'
 import categories from './categories/reducer'
 import brands from './brands/reducer'
-import model from './model/reducer'
+import models from './models/reducer'
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -16,7 +16,7 @@ const bindMiddleware = (middleware) => {
 const combinedReducer = combineReducers({
   categories,
   brands,
-  model,
+  models,
 })
 
 const reducer = (state, action) => {
