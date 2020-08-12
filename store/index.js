@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import categories from './categories/reducer'
 import brands from './brands/reducer'
 import models from './models/reducer'
+import regions from './regions/reducer'
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -17,6 +18,7 @@ const combinedReducer = combineReducers({
   categories,
   brands,
   models,
+  regions,
 })
 
 const reducer = (state, action) => {

@@ -5,45 +5,25 @@ import styles from "../../styles/home.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getBrandsByCategory } from "../../store/brands/action";
 import { getModelsByBrand } from "../../store/models/action";
-
-const region = [
-    { key: '0', text: 'Киев', value: '0' },
-    { key: '1', text: 'Винница', value: '1' },
-    { key: '2', text: 'Днепр (Днепропетровск)', value: '2' },
-    { key: '3', text: 'Донецкая обл.', value: '3' },
-    { key: '4', text: 'Житомир', value: '4' },
-    { key: '5', text: 'Запорожье', value: '5' },
-    { key: '6', text: 'Ивано-Франковск', value: '6' },
-    { key: '7', text: 'Кропивницкий (Кировоград)', value: '7' },
-    { key: '8', text: 'Луганская обл.', value: '8' },
-    { key: '9', text: 'Луцк', value: '9' },
-    { key: '10', text: 'Львов', value: '10' },
-    { key: '11', text: 'Николаев', value: '11' },
-    { key: '12', text: 'Одесса', value: '12' },
-    { key: '13', text: 'Полтава', value: '13' },
-    { key: '14', text: 'Ровно', value: '14' },
-    { key: '15', text: 'Сумы', value: '15' },
-    { key: '16', text: 'Тернополь', value: '16' },
-    { key: '17', text: 'Ужгород', value: '17' },
-    { key: '18', text: 'Харьков', value: '18' },
-    { key: '19', text: 'Херсон', value: '19' },
-    { key: '20', text: 'Хмельницкий', value: '20' },
-    { key: '21', text: 'Черкассы', value: '21' },
-    { key: '22', text: 'Чернигов', value: '22' },
-    { key: '23', text: 'Черновцы', value: '23' },
-]
+import { getRegions } from "../../store/regions/action";
 
 export default function SearchFilter() {
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.categories);
     const brands = useSelector((state) => state.brands);
     const models = useSelector((state) => state.models);
+    const regions = useSelector((state) => state.regions);
 
     const [ state, setState ] = useState({
         category: get(categories, '[0]._id'),
         brand: '',
         model: '',
+        region: '',
     });
+
+    useEffect(() => {
+        dispatch(getRegions());
+    }, []);
 
     useEffect(() => {
         if (state.category) {
@@ -74,8 +54,8 @@ export default function SearchFilter() {
     return (
         <Segment vertical style={ { padding: '5em 0em' } }>
             <Container>
-                <Segment inverted>
-                    <Form inverted>
+                <Form inverted>
+                    <Segment inverted>
                         <Grid columns={ 3 }>
                             <Grid.Row>
                                 <Grid.Column>
@@ -125,10 +105,13 @@ export default function SearchFilter() {
                                 <Grid.Column>
                                     <Form.Field
                                         control={ Select }
-                                        options={ region }
+                                        options={ regions.map(({ name, _id }) => ({ text: name, value: _id }))  }
                                         clearable={ true }
                                         label={ { children: 'Регион', htmlFor: 'form-select-control-region' } }
                                         placeholder='Регион'
+                                        value={ state.region }
+                                        onChange={ handleChange }
+                                        name="region"
                                         search
                                         searchInput={ { id: 'form-select-control-region' } }
                                         noResultsMessage="Результатов не найдено"
@@ -201,8 +184,8 @@ export default function SearchFilter() {
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
-                    </Form>
-                </Segment>
+                    </Segment>
+                </Form>
             </Container>
         </Segment>
     )
