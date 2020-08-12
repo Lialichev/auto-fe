@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getBrandsByCategory } from "../../store/brands/action";
 import { getModelsByBrand } from "../../store/models/action";
 import { getRegions } from "../../store/regions/action";
+import rangeYear from "../../helpers/rangeYear";
 
 export default function SearchFilter() {
     const dispatch = useDispatch();
@@ -19,6 +20,8 @@ export default function SearchFilter() {
         brand: '',
         model: '',
         region: '',
+        from_year: '',
+        to_year: '',
     });
 
     useEffect(() => {
@@ -45,6 +48,16 @@ export default function SearchFilter() {
             }))
         }
     }, [ state.brand ]);
+
+    useEffect(() => {
+        if ((state.from_year && state.to_year) && (state.from_year > state.to_year)) {
+            setState(prevState => ({
+                ...prevState,
+                from_year: prevState.to_year,
+                to_year: prevState.from_year,
+            }));
+        }
+    }, [ state.from_year, state.to_year ]);
 
     const handleChange = (e, { name, value }) => setState(prevState => ({
         ...prevState,
@@ -105,7 +118,7 @@ export default function SearchFilter() {
                                 <Grid.Column>
                                     <Form.Field
                                         control={ Select }
-                                        options={ regions.map(({ name, _id }) => ({ text: name, value: _id }))  }
+                                        options={ regions.map(({ name, _id }) => ({ text: name, value: _id })) }
                                         clearable={ true }
                                         label={ { children: 'Регион', htmlFor: 'form-select-control-region' } }
                                         placeholder='Регион'
@@ -123,11 +136,10 @@ export default function SearchFilter() {
                                             fluid
                                             clearable={ true }
                                             label='Год'
-                                            options={ new Array(120).fill('').map((item, i) => {
-                                                const newItem = 2020 - i;
-
-                                                return { key: newItem, text: newItem, value: newItem };
-                                            }) }
+                                            options={ rangeYear() }
+                                            name="from_year"
+                                            value={ state.from_year }
+                                            onChange={ handleChange }
                                             placeholder='от'
                                         />
                                         <Form.Select
@@ -135,11 +147,10 @@ export default function SearchFilter() {
                                             fluid
                                             clearable={ true }
                                             label='Год'
-                                            options={ new Array(120).fill('').map((item, i) => {
-                                                const newItem = 2020 - i;
-
-                                                return { key: newItem, text: newItem, value: newItem };
-                                            }) }
+                                            options={ rangeYear() }
+                                            name="to_year"
+                                            value={ state.to_year }
+                                            onChange={ handleChange }
                                             placeholder='до'
                                         />
                                     </Form.Group>
