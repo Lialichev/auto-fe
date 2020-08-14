@@ -180,7 +180,6 @@ export default function SearchFilter() {
                                                 label='$'
                                                 placeholder='до'
                                                 type="number"
-                                                max={5}
                                                 fluid
                                             />
                                         </Form.Field>
