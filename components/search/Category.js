@@ -12,7 +12,7 @@ const Category = () => {
 
     useEffect(() => {
         dispatch(setCategory(get(categories, '[0]._id')));
-    }, []);
+    }, [ categories ]);
 
     return (
         <Form.Select

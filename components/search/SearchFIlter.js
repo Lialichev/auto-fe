@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button, Container, Form, Grid, Icon, Segment } from "semantic-ui-react";
+import { useRouter } from 'next/router';
 import { useDispatch } from "react-redux";
 import { getRegions } from "../../store/regions/action";
 import Category from "./Category";
@@ -11,6 +12,7 @@ import Year from "./Year";
 
 export default function SearchFilter() {
     const dispatch = useDispatch();
+    const router = useRouter();
 
     useEffect(() => {
         dispatch(getRegions());
@@ -53,7 +55,7 @@ export default function SearchFilter() {
                                     <Button
                                         animated
                                         primary
-                                        onClick={() => console.log('submit')}
+                                        onClick={() => router.push('/search')}
                                     >
                                         <Button.Content visible>Поиск</Button.Content>
                                         <Button.Content hidden>
