@@ -16,7 +16,6 @@ import SearchFilter from "../components/search/SearchFIlter";
 import Router from 'next/router';
 import { wrapper } from '../store'
 import { getCategories } from '../store/categories/action'
-import { useSelector } from 'react-redux'
 
 import styles from '../styles/home.module.css';
 
@@ -235,16 +234,6 @@ const HomepageLayout = () => (
         </Segment>
     </ResponsiveContainer>
 );
-
-// HomepageLayout.getInitialProps = async () => {
-//
-//     const response = await fetch('http://localhost:5000/api/category');
-//     const categories = await response.json();
-//
-//     return {
-//         categories
-//     };
-// };
 
 export const getServerSideProps = wrapper.getServerSideProps(async ({ store }) => {
         await store.dispatch(getCategories());

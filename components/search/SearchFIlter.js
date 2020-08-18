@@ -1,68 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Container, Form, Grid, Icon, Input, Segment, Select } from "semantic-ui-react";
-import get from 'lodash/get';
-import styles from "../../styles/home.module.css";
-import { useSelector, useDispatch } from "react-redux";
-import { getBrandsByCategory } from "../../store/brands/action";
-import { getModelsByBrand } from "../../store/models/action";
+import React, { useEffect } from 'react';
+import { Button, Container, Form, Grid, Icon, Segment } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
 import { getRegions } from "../../store/regions/action";
-import rangeYear from "../../helpers/rangeYear";
+import Category from "./Category";
+import Brand from "./Brand";
+import Model from "./Model";
+import Price from "./Price";
+import Region from "./Region";
+import Year from "./Year";
 
 export default function SearchFilter() {
     const dispatch = useDispatch();
-    const categories = useSelector((state) => state.categories);
-    const brands = useSelector((state) => state.brands);
-    const models = useSelector((state) => state.models);
-    const regions = useSelector((state) => state.regions);
-
-    const [ state, setState ] = useState({
-        category: get(categories, '[0]._id'),
-        brand: '',
-        model: '',
-        region: '',
-        from_year: '',
-        to_year: '',
-    });
 
     useEffect(() => {
         dispatch(getRegions());
     }, []);
-
-    useEffect(() => {
-        if (state.category) {
-            dispatch(getBrandsByCategory({ category_id: state.category }));
-            setState(prevState => ({
-                ...prevState,
-                brand: '',
-                model: '',
-            }))
-        }
-    }, [ state.category ]);
-
-    useEffect(() => {
-        if (state.brand) {
-            dispatch(getModelsByBrand({ brand_id: state.brand }));
-            setState(prevState => ({
-                ...prevState,
-                model: '',
-            }))
-        }
-    }, [ state.brand ]);
-
-    useEffect(() => {
-        if ((state.from_year && state.to_year) && (state.from_year > state.to_year)) {
-            setState(prevState => ({
-                ...prevState,
-                from_year: prevState.to_year,
-                to_year: prevState.from_year,
-            }));
-        }
-    }, [ state.from_year, state.to_year ]);
-
-    const handleChange = (e, { name, value }) => setState(prevState => ({
-        ...prevState,
-        [name]: value
-    }));
 
     return (
         <Segment vertical style={ { padding: '5em 0em' } }>
@@ -72,123 +24,37 @@ export default function SearchFilter() {
                         <Grid columns={ 3 }>
                             <Grid.Row>
                                 <Grid.Column>
-                                    <Form.Select
-                                        fluid
-                                        label='Тип транспорта'
-                                        options={ categories.map(({ name, _id }) => ({ text: name, value: _id })) }
-                                        clearable={ true }
-                                        value={ state.category }
-                                        onChange={ handleChange }
-                                        name="category"
-                                        placeholder='Тип транспорта'
-                                    />
+                                    <Category/>
                                 </Grid.Column>
                                 <Grid.Column>
-                                    <Form.Field
-                                        control={ Select }
-                                        options={ brands.map(({ name, _id }) => ({ text: name, value: _id })) }
-                                        clearable={ true }
-                                        label={ { children: 'Марка', htmlFor: 'form-select-control-brand' } }
-                                        placeholder='Марка'
-                                        value={ state.brand }
-                                        onChange={ handleChange }
-                                        name="brand"
-                                        search
-                                        searchInput={ { id: 'form-select-control-brand' } }
-                                        noResultsMessage="Результатов не найдено"
-                                    />
+                                    <Brand/>
                                 </Grid.Column>
                                 <Grid.Column>
-                                    <Form.Field
-                                        control={ Select }
-                                        options={ models.map(({ name, _id }) => ({ text: name, value: _id })) }
-                                        clearable={ true }
-                                        label={ { children: 'Модель', htmlFor: 'form-select-control-model' } }
-                                        placeholder='Модель'
-                                        value={ state.model }
-                                        onChange={ handleChange }
-                                        name="model"
-                                        search
-                                        searchInput={ { id: 'form-select-control-model' } }
-                                        noResultsMessage="Результатов не найдено"
-                                    />
+                                    <Model/>
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
                                 <Grid.Column>
-                                    <Form.Field
-                                        control={ Select }
-                                        options={ regions.map(({ name, _id }) => ({ text: name, value: _id })) }
-                                        clearable={ true }
-                                        label={ { children: 'Регион', htmlFor: 'form-select-control-region' } }
-                                        placeholder='Регион'
-                                        value={ state.region }
-                                        onChange={ handleChange }
-                                        name="region"
-                                        search
-                                        searchInput={ { id: 'form-select-control-region' } }
-                                        noResultsMessage="Результатов не найдено"
-                                    />
+                                    <Region/>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Form.Group widths='equal' style={ { marginBottom: 0 } }>
-                                        <Form.Select
-                                            fluid
-                                            clearable={ true }
-                                            label='Год'
-                                            options={ rangeYear() }
-                                            name="from_year"
-                                            value={ state.from_year }
-                                            onChange={ handleChange }
-                                            placeholder='от'
-                                        />
-                                        <Form.Select
-                                            className={ styles.hideLabel }
-                                            fluid
-                                            clearable={ true }
-                                            label='Год'
-                                            options={ rangeYear() }
-                                            name="to_year"
-                                            value={ state.to_year }
-                                            onChange={ handleChange }
-                                            placeholder='до'
-                                        />
+                                        <Year/>
                                     </Form.Group>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Form.Group widths='equal' style={ { marginBottom: 0 } }>
-                                        <Form.Field>
-                                            <label>Цена</label>
-                                            <Input
-                                                label='$'
-                                                type="number"
-                                                placeholder='от'
-                                                fluid
-                                            />
-                                        </Form.Field>
-                                        <Form.Field>
-                                            <label
-                                                style={ {
-                                                    color: 'transparent',
-                                                    pointerEvents: 'none',
-                                                    userSelect: 'none'
-                                                } }
-                                            >
-                                                Цена
-                                            </label>
-                                            <Input
-                                                label='$'
-                                                placeholder='до'
-                                                type="number"
-                                                fluid
-                                            />
-                                        </Form.Field>
+                                        <Price/>
                                     </Form.Group>
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row columns={ 2 }>
                                 <Grid.Column>
-                                    <Button animated primary type='submit'>
+                                    <Button
+                                        animated
+                                        primary
+                                        onClick={() => console.log('submit')}
+                                    >
                                         <Button.Content visible>Поиск</Button.Content>
                                         <Button.Content hidden>
                                             <Icon name='arrow right'/>
