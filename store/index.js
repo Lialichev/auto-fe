@@ -6,6 +6,7 @@ import brands from './brands/reducer'
 import models from './models/reducer'
 import regions from './regions/reducer'
 import searchFilter from './searchFilter/reducer'
+import searchResults from './searchResults/reducer'
 
 const bindMiddleware = (middleware) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -21,6 +22,7 @@ const combinedReducer = combineReducers({
     models,
     regions,
     searchFilter,
+    searchResults,
 })
 
 const reducer = (state, action) => {

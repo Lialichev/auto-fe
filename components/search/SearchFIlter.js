@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { Button, Container, Form, Grid, Icon, Segment } from "semantic-ui-react";
-import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from "react-redux";
+import { Container, Form, Grid, Segment } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
 import { getRegions } from "../../store/regions/action";
 import Category from "./Category";
 import Brand from "./Brand";
@@ -9,12 +8,10 @@ import Model from "./Model";
 import Price from "./Price";
 import Region from "./Region";
 import Year from "./Year";
+import SearchControl from "./SearchControl";
 
 export default function SearchFilter() {
     const dispatch = useDispatch();
-    const router = useRouter();
-
-    const params = useSelector((state) => state.searchFilter);
 
     useEffect(() => {
         dispatch(getRegions());
@@ -28,53 +25,39 @@ export default function SearchFilter() {
                         <Grid columns={ 3 }>
                             <Grid.Row>
                                 <Grid.Column>
+                                    {/* Category */}
                                     <Category/>
                                 </Grid.Column>
                                 <Grid.Column>
+                                    {/* Brand */}
                                     <Brand/>
                                 </Grid.Column>
                                 <Grid.Column>
+                                    {/* Model */}
                                     <Model/>
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
                                 <Grid.Column>
+                                    {/* Region */}
                                     <Region/>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Form.Group widths='equal' style={ { marginBottom: 0 } }>
+                                        {/* Year */}
                                         <Year/>
                                     </Form.Group>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Form.Group widths='equal' style={ { marginBottom: 0 } }>
+                                        {/* Price */}
                                         <Price/>
                                     </Form.Group>
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row columns={ 2 }>
-                                <Grid.Column>
-                                    <Button
-                                        animated
-                                        primary
-                                        onClick={() => {
-                                            router.push({
-                                                pathname: '/search',
-                                                query: params,
-                                            })
-                                        }}
-                                    >
-                                        <Button.Content visible>Поиск</Button.Content>
-                                        <Button.Content hidden>
-                                            <Icon name='arrow right'/>
-                                        </Button.Content>
-                                    </Button>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Button basic inverted floated="right">
-                                        Расширенный поиск
-                                    </Button>
-                                </Grid.Column>
+                                {/* Search Control */}
+                                <SearchControl />
                             </Grid.Row>
                         </Grid>
                     </Segment>

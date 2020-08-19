@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
-import { setFromPrice, setToPrice } from "../../store/searchFilter/action";
+import { setMaxPrice, setMinPrice } from "../../store/searchFilter/action";
 
 const Price = () => {
     const dispatch = useDispatch();
 
-    const from_price = useSelector((state) => state.searchFilter.from_price);
-    const to_price = useSelector((state) => state.searchFilter.to_price);
+    const min_price = useSelector((state) => state.searchFilter.min_price);
+    const max_price = useSelector((state) => state.searchFilter.max_price);
+
+    const handleChange = (evt) => {
+        if (evt.target.validity.valid) {
+            dispatch(setMinPrice(evt.target.value))
+        }
+    }
 
     return (
         <>
@@ -15,11 +21,14 @@ const Price = () => {
                 <label>Цена</label>
                 <Input
                     label='$'
-                    type="number"
                     placeholder='от'
-                    name="from_price"
-                    value={ from_price }
-                    onChange={ (e, { value }) => dispatch(setFromPrice(value)) }
+                    type="text"
+                    pattern="[0-9]*"
+                    name="min_price"
+                    value={ min_price }
+                    onChange={ ({ target }, { value }) => {
+                        if (target.validity.valid) dispatch(setMinPrice(value))
+                    } }
                     fluid
                 />
             </Form.Field>
@@ -36,10 +45,13 @@ const Price = () => {
                 <Input
                     label='$'
                     placeholder='до'
-                    type="number"
-                    name="to_price"
-                    value={ to_price }
-                    onChange={ (e, { value }) => dispatch(setToPrice(value)) }
+                    type="text"
+                    pattern="[0-9]*"
+                    name="max_price"
+                    value={ max_price }
+                    onChange={ ({ target }, { value }) => {
+                        if (target.validity.valid) dispatch(setMaxPrice(value))
+                    } }
                     fluid
                 />
             </Form.Field>

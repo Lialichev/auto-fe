@@ -7,12 +7,17 @@ const initialState = {
     region: '',
     from_year: '',
     to_year: '',
-    from_price: '',
-    to_price: '',
+    min_price: '',
+    max_price: '',
 }
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
+        case actionTypes.SET_FILTER:
+            return {
+                ...state,
+                ...action.payload
+            }
         case actionTypes.SET_CATEGORY:
             return {
                 ...state,
@@ -28,15 +33,15 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 model: action.payload
             }
-        case actionTypes.SET_FROM_PRICE:
+        case actionTypes.SET_MIN_PRICE:
             return {
                 ...state,
-                from_price: action.payload
+                min_price: action.payload
             }
-        case actionTypes.SET_TO_PRICE:
+        case actionTypes.SET_MAX_PRICE:
             return {
                 ...state,
-                to_price: action.payload
+                max_price: action.payload
             }
         case actionTypes.SET_REGION:
             return {
