@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Form, Input } from "semantic-ui-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setMaxPrice, setMinPrice } from "../../store/searchFilter/action";
@@ -8,12 +8,6 @@ const Price = () => {
 
     const min_price = useSelector((state) => state.searchFilter.min_price);
     const max_price = useSelector((state) => state.searchFilter.max_price);
-
-    const handleChange = (evt) => {
-        if (evt.target.validity.valid) {
-            dispatch(setMinPrice(evt.target.value))
-        }
-    }
 
     return (
         <>
