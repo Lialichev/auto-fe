@@ -8,7 +8,7 @@ const Search = () => {
     const { data } = useSelector((state) => state.searchResults);
 
     return (
-        <PageLayout>
+        <PageLayout title="Поиск">
             <div>Search</div>
             {
                 data.map((e, i) => <div key={ i }>{ i }</div>)

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { createMedia } from '@artsy/fresnel';
+import Head from 'next/head';
 import {
     Button,
     Container,
@@ -13,7 +14,7 @@ import {
     Visibility,
 } from 'semantic-ui-react';
 import Router from 'next/router';
-import styles from '../../styles/home.module.css';
+import '../../styles/home.module.scss';
 
 const { MediaContextProvider, Media } = createMedia({
     breakpoints: {
@@ -39,6 +40,7 @@ class DesktopContainer extends Component {
                     once={ false }
                     onBottomPassed={ this.showFixedMenu }
                     onBottomPassedReverse={ this.hideFixedMenu }
+                    className="header"
                 >
                     <Segment
                         inverted
@@ -59,7 +61,7 @@ class DesktopContainer extends Component {
                             pointing={ !fixed }
                             secondary={ !fixed }
                             size='large'
-                            className={ styles.headerTop }
+                            className="headerTop"
                         >
                             <Container>
                                 <Menu.Item as='a' active>Главная</Menu.Item>
@@ -103,7 +105,7 @@ class MobileContainer extends Component {
 
         return (
             <Media as={ Sidebar.Pushable } at='mobile'>
-                <Sidebar.Pushable>
+                <Sidebar.Pushable className="header">
                     <Sidebar
                         as={ Menu }
                         animation='overlay'
@@ -130,7 +132,13 @@ class MobileContainer extends Component {
                             vertical
                         >
                             <Container>
-                                <Menu inverted pointing secondary size='large'>
+                                <Menu
+                                    inverted
+                                    pointing
+                                    secondary
+                                    size='large'
+                                    className="headerTop"
+                                >
                                     <Menu.Item onClick={ this.handleToggle }>
                                         <Icon name='sidebar'/>
                                     </Menu.Item>
@@ -162,8 +170,11 @@ const ResponsiveContainer = ({ children, heading }) => (
     </MediaContextProvider>
 );
 
-const PageLayout = ({ children, heading }) => (
+const PageLayout = ({ children, heading, title = 'AZ' }) => (
     <ResponsiveContainer heading={ heading }>
+        <Head>
+            <title>{ `${ title } | Auto Zone` }</title>
+        </Head>
         { children }
         <Segment inverted vertical style={ { padding: '5em 0em' } }>
             <Container>

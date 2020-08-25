@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setFromYear, setToYear } from "../../store/searchFilter/action";
 import rangeYear from "../../helpers/rangeYear";
 
-import styles from "../../styles/home.module.css";
+import styles from "../../styles/home.module.scss";
 
 const Price = () => {
     const dispatch = useDispatch();
